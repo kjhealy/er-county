@@ -124,6 +124,7 @@ clean.pop <- function(fname,
     ## Create a categorical population measure, cutting aa.pop up into bins
     popdata$aa.pop.cut <- cut2(popdata$aa.pop,
                                cuts=c(0, 100, 1000, 10000, 50000, 100000, 200000))
+    detach(package:Hmisc)
 
     return(popdata)
 }
@@ -215,7 +216,7 @@ p2 <- p2 + theme(legend.position="right") + labs(fill="Number")
 p2 <- p2 + ggtitle("African American Population in 1910")
 
 ## Note it doesn't use the full scale
-pdf(file="binned-map-1910.pdf", height=10, width=15)
+pdf(file="figures/binned-map-1910.pdf", height=10, width=15)
 print(p2)
 dev.off()
 
@@ -290,8 +291,22 @@ p2 <- p1 + scale_fill_brewer(palette="Oranges",
 p2 <- p2 + coord_equal()
 p2 <- p2 + theme_map()
 p2 <- p2 + theme(legend.position="right") + labs(fill="Number")
-p2 <- p2 + facet_wrap(~ Year) + ggtitle("African American Population")
+p2 <- p2 + facet_wrap(~ Year) +
+    theme(strip.text = element_text(face="bold", size=rel(1.5)),
+          strip.background = element_rect(fill="white", colour="white",
+                                              size=1))
 
-pdf(file="binned-map-both.pdf", height=10, width=15)
+pdf(file="figures/binned-map-both-wide.pdf", height=10, width=15)
+print(p2)
+dev.off()
+
+
+## Or vertically
+p2 <- p2 + facet_wrap(~ Year, ncol=1) +
+    theme(strip.text = element_text(face="bold", size=rel(1.5)),
+          strip.background = element_rect(fill="white", colour="white",
+                                              size=1))
+
+pdf(file="figures/binned-map-both-tall.pdf", height=12, width=10)
 print(p2)
 dev.off()
