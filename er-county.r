@@ -7,6 +7,7 @@ library(ggplot2)
 library(stringr)
 library(scales)
 library(RColorBrewer)
+library(dplyr)
 
 ###--------------------------------------------------
 ### Set up the Maps.
@@ -256,8 +257,6 @@ dev.off()
 ### Combine into one data set and then plot
 ###--------------------------------------------------
 
-library(dplyr)
-
 ## First add an identifying variable
 
 co.map10$Year <- "1910"
@@ -305,7 +304,8 @@ dev.off()
 p2 <- p2 + facet_wrap(~ Year, ncol=1) +
     theme(strip.text = element_text(face="bold", size=rel(1.5)),
           strip.background = element_rect(fill="white", colour="white",
-                                              size=1))
+                                          size=1),
+          legend.position="top")
 
 pdf(file="figures/binned-map-both-tall.pdf", height=12, width=10)
 print(p2)
